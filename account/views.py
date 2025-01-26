@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.settings import api_settings
@@ -13,6 +13,7 @@ import random
 from .models import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import UpdateAPIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class CreateUserView(APIView):
@@ -35,6 +36,11 @@ class CustomTokenRefreshView(TokenRefreshView):
             response.data["access_token_expires"] = int((now() + access_token_lifetime).timestamp())
             # response.data["refresh_token_expires"] = int((now() + refresh_token_lifetime).timestamp())
         return response
+
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 

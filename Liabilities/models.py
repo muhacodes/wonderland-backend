@@ -1,4 +1,5 @@
 from django.db import models
+from Management.models import StaffProfile
 
 class LiabilityUser(models.Model):
     name = models.CharField(max_length=500)

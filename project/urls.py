@@ -19,15 +19,36 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from Sales.views import SaleViewSet, ExpenseViewSet
+from Sales.views import SaleViewSet, ExpenseViewSet, InventoryItemViewSet, CategoryViewSet, SubCategoryViewSet
 from Liabilities.views import LiabilityViewSet
+from Bookings.views import BookingViewSet
+from Management.views import StaffViewSet, TaskViewSet, TargetViewSet, MeetingViewSet, ArcadeQuestionViewSet, ArcadeFeedbackViewSet, CafeQuestionViewSet,CafeFeedbackViewSet, StaffProfileViewSet, CustomerViewSet,CustomerVisitViewSet
 
 # Create a router and register viewsets
 router = DefaultRouter()
 
-router.register(r'sales', SaleViewSet)
-router.register(r'expenses', ExpenseViewSet)
-router.register(r'liability', LiabilityViewSet)
+router.register('sales', SaleViewSet)
+router.register('expenses', ExpenseViewSet)
+router.register('liability', LiabilityViewSet)
+router.register('booking', BookingViewSet)
+
+router.register('customer', CustomerViewSet, basename='customer')
+router.register('customer-visits', CustomerVisitViewSet, basename='visit')
+
+router.register('staff', StaffViewSet)
+router.register('tasks', TaskViewSet)
+router.register('targets', TargetViewSet)
+router.register('meetings', MeetingViewSet)
+router.register('arcade-question', ArcadeQuestionViewSet)
+router.register('arcade-feedback', ArcadeFeedbackViewSet)
+router.register('cafe-question', CafeQuestionViewSet)
+router.register('cafe-feedback', CafeFeedbackViewSet)
+router.register('staff-profile', StaffProfileViewSet)
+router.register('inventory', InventoryItemViewSet)
+
+router.register('category', CategoryViewSet)
+router.register('subcategory', SubCategoryViewSet)
+
 
 
 urlpatterns = [

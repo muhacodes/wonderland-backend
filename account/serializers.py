@@ -57,33 +57,30 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-
-        # Add custom claims
         token['user'] = UserSerializer(user).data
-        # ...
-
         return token
-    
+
     def validate(self, attrs):
         data = super().validate(attrs)
 
         user = self.user or self.context.get('user')
         data['user'] = UserSerializer(user).data
         
-        # Calculate and include the expiration times for both tokens
-        refresh = self.get_token(self.user)
-        
-        data['access'] = str(refresh.access_token)
+        # Generate tokens
+        refresh = self.get_token(user)
+        access_token = refresh.access_token
+
+        # Attach tokens
+        data['access'] = str(access_token)
         data['refresh'] = str(refresh)
 
-        # Here we add the expiration time for the access token
-        access_token_lifetime = api_settings.ACCESS_TOKEN_LIFETIME
-        refresh_token_lifetime = api_settings.REFRESH_TOKEN_LIFETIME
+        # Extract expiration times
+        # Both 'exp' claims exist by default in SimpleJWT
+        data['access_token_expires'] = access_token['exp']
+        data['refresh_token_expires'] = refresh['exp']
 
-        data['access_token_expires'] = (datetime.now() + access_token_lifetime).timestamp()
-        data['refresh_token_expires'] = (datetime.now() + refresh_token_lifetime).timestamp()
-        
         return data
+
     
 
 from django.core.exceptions import ValidationError as DjangoValidationError

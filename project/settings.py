@@ -205,6 +205,13 @@ CORS_ALLOW_HEADERS = [
     'x-frame-options',
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Access token valid for 1 hour
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Refresh token valid for 7 days
+    'ROTATE_REFRESH_TOKENS': True,               # Optionally rotate refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,            # Blacklist old refresh tokens after rotation
+}
+
 
 
 INSTALLED_APPS = [
@@ -216,9 +223,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'Bookings',
     'corsheaders',
     'account',
     'Sales',
+    'Management',
     'Liabilities',
 
 ]
